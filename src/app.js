@@ -14,6 +14,23 @@ function getPosts() {
     .catch((err) => console.error(err));
 }
 
+function deletePost(e) {
+  if (e.target.parentElement.classList.contains('delete')) {
+    const id = e.target.parentElement.dataset.id;
+    if (confirm('Are You Sure to Delete This Post?')) {
+      http
+        .delete(`http://localhost:3000/posts/${id}`)
+        .then((data) => {
+          ui.showAlert('Post Removed', 'alert alert-success');
+          getPosts();
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+  e.preventDefault();
+}
+
+document.querySelector('#posts').addEventListener('click', deletePost);
 //  Submit post
 function submitPost() {
   const title = document.querySelector('#title').value;
